@@ -1,61 +1,22 @@
-import {useState} from 'react';
+import React from "react";
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-
-function App() {
-  const [name,setName] = useState('');
-  const [email,setEmail] = useState('');
-  const [password,setPassword] = useState('');
-
-  //Registers User
-  async function registerUser(event){
-    event.preventDefault();
-
-    //creating ip packet with data to send over to express server
-    const response = await fetch("http://localhost:1337/api/register",{
-      method: "POST",
-      headers:{
-        'Content-Type': 'application/json',
-      },  
-      body: JSON.stringify({
-          name,
-          email,
-          password
-        }),
-    });
-
-    const data = response.json();
-    console.log(data);
-  }
-
-  return (
-      <div>
-        <h1>Register</h1>
-        <form onSubmit={registerUser}>
-          <input 
-            value={name} 
-            onChange={(e)=> setName(e.target.value)} 
-            type="text" 
-            placeholder="Name"
-          /> <br />
-
-          <input 
-            value={email} 
-            onChange={(e)=> setEmail(e.target.value)} 
-            type="email" 
-            placeholder="Email"
-          /> <br />
-
-          <input 
-            value={password} 
-            onChange={(e)=> setPassword(e.target.value)} 
-            type="password" 
-            placeholder="Password"
-          /> <br />
-          <input type="submit" value="Register"/>
-
-        </form>
-      </div>
-  );
+const App = ()=>{
+    return(
+        <div>
+            <BrowserRouter>
+            <Routes>
+                <Route path="/login" exact element={<Login/>}/>
+                <Route path="/register" exact element={<Register/>}/>
+                <Route path="/dashboard" exact element={<Dashboard/>}/>
+            </Routes>
+            </BrowserRouter>
+        </div> 
+    )
 }
 
-export default App;
+
+export default App
